@@ -22,6 +22,9 @@ No active response is configured by this example.
     <if_matched_sid>5710</if_matched_sid>
     <same_srcip />
     <description>Repeated SSH invalid-user events from the same source IP (lab example)</description>
+    <mitre>
+      <id>T1110</id>
+    </mitre>
     <group>authentication_failed,ssh,</group>
   </rule>
 </group>
