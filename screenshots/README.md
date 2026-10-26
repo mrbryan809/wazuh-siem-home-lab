@@ -1,6 +1,6 @@
 # Screenshot placeholders and capture checklist
 
-No screenshots are included because no lab has been deployed or tested. Add your own sanitized images after completing the exercise.
+Add your own sanitized images as you build and validate the lab.
 
 Suggested filenames:
 - `01-architecture.png` — labeled VM/network diagram.
