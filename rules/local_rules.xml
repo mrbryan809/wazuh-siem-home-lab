@@ -1,0 +1,27 @@
+<!--
+Illustrative custom rule for repeated SSH invalid-user events.
+This is a starting point, not a portable or production-ready detection.
+
+Before use:
+1. Inspect installed SSH rules and test an actual event with
+   /var/ossec/bin/wazuh-logtest (or Dashboard > Tools > Ruleset test).
+2. Confirm parent ID, decoded srcip field, time window, and frequency
+   behavior in your release. This example assumes rule 5710 and srcip.
+   Current docs use 5710 for an SSH invalid-user event; versions/log formats differ.
+3. Wazuh custom-rule guidance recommends IDs 100000-120000. Check local
+   collisions before selecting 100100.
+4. Back up local_rules.xml. Place custom rules in /var/ossec/etc/rules/,
+   not /var/ossec/ruleset/rules/ (managed by Wazuh and may change on upgrade).
+5. Validate positive and negative cases. This does not detect all failed SSH
+   passwords or Windows logon failures.
+
+No active response is configured by this example.
+-->
+<group name="local,authentication,">
+  <rule id="100100" level="10" frequency="5" timeframe="120">
+    <if_matched_sid>5710</if_matched_sid>
+    <same_srcip />
+    <description>Repeated SSH invalid-user events from the same source IP (lab example)</description>
+    <group>authentication_failed,ssh,</group>
+  </rule>
+</group>
