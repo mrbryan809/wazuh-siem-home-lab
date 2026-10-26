@@ -1,6 +1,6 @@
 # Wazuh SIEM Home Lab
 
-A beginner-friendly defensive security project for learning how a SIEM collects authentication events, evaluates rules, and supports a basic investigation. This repository is a guide and set of examples; it does **not** deploy Wazuh or claim that anything has been run on your computer.
+A beginner-friendly defensive security project for building a Wazuh SIEM home lab, learning how it collects authentication events, evaluates rules, and supports a basic investigation. This repository includes a setup guide and practical examples.
 
 > **Safe-use boundary:** Keep the lab isolated and use only systems and accounts you own or are explicitly authorized to test. The examples use benign sample log lines. Do not expose the Wazuh dashboard, manager, or test endpoints to the public internet.
 
@@ -46,4 +46,4 @@ This is for learning, not a production detection. Test positive and negative exa
 Documentation URLs and requirements can change. Check the version selector and docs matching your installed release before following commands.
 
 ## Project status
-Documentation and example artifacts only. No deployment, endpoint enrollment, alert generation, or system testing is represented as completed.
+Follow the setup guide to build your lab, validate the rules in your Wazuh version, and document your own results.
