@@ -42,7 +42,7 @@ The report file is a template. Add a completed, sanitized case write-up only whe
 
 ## Suggested resume entry
 
-> Built and tested a Wazuh SIEM home lab with three agents (two Windows, one Linux); validated authentication detection rules and documented a brute-force investigation mapped to MITRE ATT&CK T1110.
+> Built and tested a Wazuh SIEM home lab with three agents (two Windows, one Linux); validated authentication detection rules and mapped repeated SSH invalid-user activity to MITRE ATT&CK T1110.
 
 Use this wording only while it matches the work and evidence you can discuss. Add the repository link after publishing your sanitized evidence.
 
@@ -55,3 +55,4 @@ Use this wording only while it matches the work and evidence you can discuss. Ad
 - [Wazuh MITRE ATT&CK mapping](https://documentation.wazuh.com/current/user-manual/ruleset/mitre.html)
 
 Documentation and requirements can change. Use the documentation matching your installed release.
+
