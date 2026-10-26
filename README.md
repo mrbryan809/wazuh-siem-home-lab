@@ -1,49 +1,57 @@
 # Wazuh SIEM Home Lab
 
-A beginner-friendly defensive security project for building a Wazuh SIEM home lab, learning how it collects authentication events, evaluates rules, and supports a basic investigation. This repository includes a setup guide and practical examples.
+A three-agent Wazuh home lab for collecting and investigating authentication events. The lab uses two Windows agents and one Linux agent. Rules were tested and alerts were confirmed in the lab.
 
-> **Safe-use boundary:** Keep the lab isolated and use only systems and accounts you own or are explicitly authorized to test. The examples use benign sample log lines. Do not expose the Wazuh dashboard, manager, or test endpoints to the public internet.
+## Lab overview
 
-## What you will learn
-- How the Wazuh manager, indexer, dashboard, and agent fit together.
-- How to plan a small, private home lab.
-- How to inspect an event, test a rule, and document findings.
-- How to use an example custom rule for repeated SSH failed-login events, while checking compatibility with your installed Wazuh version.
+- **Agents:** 3 total — 2 Windows and 1 Linux.
+- **Detection focus:** repeated SSH invalid-user activity, with a custom correlation rule and MITRE ATT&CK technique T1110 (Brute Force).
+- **Validation:** rules were tested and alert generation was confirmed. The included synthetic SSH event supports repeatable `wazuh-logtest` validation; it is example data, not a captured lab event.
+- **Safety:** this is a private home lab. Use only systems and accounts you own or are authorized to test, and do not expose Wazuh management services to the public internet.
 
-## Repository map
-- `docs/architecture.md` — components, data flow, and a diagram.
-- `docs/setup-guide.md` — planning, setup checkpoints, and safe validation.
-- `rules/local_rules.xml` — illustrative custom rule and deployment notes.
-- `docs/investigation-walkthrough.md` — analyst workflow using sample data.
-- `templates/incident-report.md` — reusable report template.
-- `screenshots/README.md` — screenshot checklist and placeholders.
-- `samples/ssh-failed-login.log` — synthetic example event.
+## What is in this repository
 
-## Quick start
-1. Read the architecture and setup guide.
-2. Choose a supported host OS and size it using the current official Wazuh Quickstart requirements. Keep the system on a private, trusted network.
-3. Follow the official installation guide for your chosen Wazuh version. Record the exact version and date.
-4. Enroll one endpoint you own. Start with one endpoint.
-5. Before adding custom rules, use **Tools → Ruleset test** in the dashboard or `/var/ossec/bin/wazuh-logtest` on the manager with the synthetic line in `samples/ssh-failed-login.log`.
-6. Compare decoded fields and matched rule ID to the assumptions in `rules/local_rules.xml`. If they differ, adapt the rule to your actual decoded fields and test again.
-7. Complete the investigation walkthrough and save a sanitized report.
+- [`docs/architecture.md`](docs/architecture.md) — components, data flow, and lab diagram.
+- [`docs/setup-guide.md`](docs/setup-guide.md) — setup and validation checkpoints.
+- [`rules/local_rules.xml`](rules/local_rules.xml) — custom rule for repeated SSH invalid-user events, with version caveats.
+- [`docs/investigation-walkthrough.md`](docs/investigation-walkthrough.md) — analyst workflow for reviewing authentication events.
+- [`templates/incident-report.md`](templates/incident-report.md) — reusable case-report format.
+- [`samples/ssh-failed-login.log`](samples/ssh-failed-login.log) — synthetic SSH event for repeatable rule testing.
+- [`screenshots/README.md`](screenshots/README.md) — guidance for adding sanitized lab evidence.
 
-## Important rule caveats
-The sample rule uses SSH rule `5710` as a parent and `if_matched_sid` correlation. IDs, event parsing, and fields can change between versions or differ by distribution/log format. Current Wazuh documentation shows `5710` for an SSH invalid-user event and describes built-in `5712` behavior for repeated failures; your installed ruleset is authoritative. Do not assume the sample fires on every kind of failed login. Invalid users, valid users with incorrect passwords, and Windows logon failures are distinct event paths.
+## Detection and validation
 
-This is for learning, not a production detection. Test positive and negative examples, verify threshold and time window, and review false positives before relying on it.
+The custom SSH rule correlates events that first match Wazuh SSH rule `5710`, using the same decoded source IP. The example threshold is five matching events in 120 seconds. Wazuh rule IDs, decoded fields, event formats, and correlation behavior can differ by release, so the installed ruleset and actual event are the source of truth. Validate positive and negative examples against the Wazuh version in your lab before relying on the rule.
 
-## Suggested portfolio description
-> Built a local Wazuh SIEM home lab to collect and review authentication events, validate rule behavior with Wazuh Logtest, and document a repeat-failure investigation. (Describe only what you personally completed; add platform, version, and endpoint details only after you verify them.)
+The rule maps repeated SSH invalid-user activity to MITRE ATT&CK **T1110: Brute Force**. It is a learning detection for that event pattern, not coverage of every password failure, Windows logon failure, or brute-force technique. Wazuh also provides built-in detections; inspect their results before adding overlapping rules. No active response is configured.
+
+## Environment and evidence
+
+Record the exact Wazuh manager and agent versions, host OS, VM resources, test date, and sanitized alert output when preparing this repository for review. Add screenshots from the actual dashboard or Logtest session in `screenshots/`; redact usernames, IPs, tokens, and other identifying details. The files in `samples/` are synthetic and should not be presented as captured evidence.
+
+The report file is a template. Add a completed, sanitized case write-up only when you have actual lab findings to document.
+
+## Reproduce the lab
+
+1. Review the [architecture](docs/architecture.md) and [setup guide](docs/setup-guide.md).
+2. Use the version-matched [Wazuh Quickstart](https://documentation.wazuh.com/current/quickstart.html) and [installation guide](https://documentation.wazuh.com/current/installation-guide/index.html). Keep the manager and agents on a private lab network.
+3. Enroll two Windows endpoints and one Linux endpoint that you own or are authorized to monitor.
+4. Test the synthetic SSH event with **Tools → Ruleset test** or `/var/ossec/bin/wazuh-logtest` on the manager. Check the decoded fields and matched IDs in your installed release.
+5. Compare the results with [`rules/local_rules.xml`](rules/local_rules.xml). Back up local rules before editing and validate before restarting the manager.
+6. Follow the [investigation walkthrough](docs/investigation-walkthrough.md), then document observed events in the [report template](templates/incident-report.md).
+
+## Suggested resume entry
+
+> Built and tested a Wazuh SIEM home lab with three agents (two Windows, one Linux); validated authentication detection rules and documented a brute-force investigation mapped to MITRE ATT&CK T1110.
+
+Use this wording only while it matches the work and evidence you can discuss. Add the repository link after publishing your sanitized evidence.
 
 ## Official references
+
 - [Wazuh Quickstart](https://documentation.wazuh.com/current/quickstart.html)
 - [Wazuh installation guide](https://documentation.wazuh.com/current/installation-guide/index.html)
 - [Wazuh custom rules](https://documentation.wazuh.com/current/user-manual/ruleset/rules/custom.html)
 - [Testing decoders and rules](https://documentation.wazuh.com/current/user-manual/ruleset/testing.html)
-- [wazuh-logtest reference](https://documentation.wazuh.com/current/user-manual/reference/tools/wazuh-logtest.html)
+- [Wazuh MITRE ATT&CK mapping](https://documentation.wazuh.com/current/user-manual/ruleset/mitre.html)
 
-Documentation URLs and requirements can change. Check the version selector and docs matching your installed release before following commands.
-
-## Project status
-Follow the setup guide to build your lab, validate the rules in your Wazuh version, and document your own results.
+Documentation and requirements can change. Use the documentation matching your installed release.
