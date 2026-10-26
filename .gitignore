@@ -1,0 +1,9 @@
+# Local captures and secrets
+.env
+*.pem
+*.key
+*.p12
+screenshots/*.png
+screenshots/*.jpg
+screenshots/*.jpeg
+!screenshots/.gitkeep
