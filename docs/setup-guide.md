@@ -1,6 +1,6 @@
 # Setup guide
 
-This is a planning and validation checklist, not an automated installer. Commands, supported operating systems, resource requirements, enrollment steps, and ports change across Wazuh releases. Use the official documentation for your chosen release.
+This guide targets Wazuh 4.14.9, the latest stable release on October 26, 2026. Check the [official release notes](https://documentation.wazuh.com/current/release-notes/) before starting in case a newer stable release is available. Commands, supported operating systems, resource requirements, enrollment steps, and ports vary by release; use the documentation matching the version you install.
 
 ## 1. Plan the lab
 - Choose a virtualization platform available to you.
